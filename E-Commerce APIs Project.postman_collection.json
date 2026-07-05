@@ -1,0 +1,4560 @@
+{
+  "info": {
+    "_postman_id": "1b09d542-e50a-4126-a86e-a910abdfff68",
+    "name": "E-Commerce APIs Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53942481",
+    "_collection_link": "https://go.postman.co/collection/53942481-1b09d542-e50a-4126-a86e-a910abdfff68?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "AddUserAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedJSONResponseSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\"\r",
+              "  ]\r",
+              "}\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add User' API request returns status code as 201\",function(){\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add User' API request response time should be less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add User' API request has a valid JSON response schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedJSONResponseSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add User' API request has a valid 'id' field\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"id\");\r",
+              "    pm.expect(responseBody.id).to.be.a(\"number\");\r",
+              "    pm.collectionVariables.set(\"userId\",responseBody.id);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"{{username}}\", \"email\": \"{{email}}\", \"password\": \"{{password}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddUserAPIRequest-NEGATIVE TESTING-Blank User Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that Add User API Request with 'blank' user details returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"\", \"email\": \"\", \"password\": \"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddUserAPIRequest-NEGATIVE TESTING-Invalid User Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that Add User API Request with 'invalid' user details returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": null, \"email\": 12312, \"password\": true}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleUserDetailsAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"address\": {\r",
+              "      \"type\": \"object\",\r",
+              "      \"properties\": {\r",
+              "        \"geolocation\": {\r",
+              "          \"type\": \"object\",\r",
+              "          \"properties\": {\r",
+              "            \"lat\": {\r",
+              "              \"type\": \"string\"\r",
+              "            },\r",
+              "            \"long\": {\r",
+              "              \"type\": \"string\"\r",
+              "            }\r",
+              "          },\r",
+              "          \"required\": [\r",
+              "            \"lat\",\r",
+              "            \"long\"\r",
+              "          ]\r",
+              "        },\r",
+              "        \"city\": {\r",
+              "          \"type\": \"string\"\r",
+              "        },\r",
+              "        \"street\": {\r",
+              "          \"type\": \"string\"\r",
+              "        },\r",
+              "        \"number\": {\r",
+              "          \"type\": \"number\"\r",
+              "        },\r",
+              "        \"zipcode\": {\r",
+              "          \"type\": \"string\"\r",
+              "        }\r",
+              "      },\r",
+              "      \"required\": [\r",
+              "        \"geolocation\",\r",
+              "        \"city\",\r",
+              "        \"street\",\r",
+              "        \"number\",\r",
+              "        \"zipcode\"\r",
+              "      ]\r",
+              "    },\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"email\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"username\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"password\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"name\": {\r",
+              "      \"type\": \"object\",\r",
+              "      \"properties\": {\r",
+              "        \"firstname\": {\r",
+              "          \"type\": \"string\"\r",
+              "        },\r",
+              "        \"lastname\": {\r",
+              "          \"type\": \"string\"\r",
+              "        }\r",
+              "      },\r",
+              "      \"required\": [\r",
+              "        \"firstname\",\r",
+              "        \"lastname\"\r",
+              "      ]\r",
+              "    },\r",
+              "    \"phone\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"__v\": {\r",
+              "      \"type\": \"number\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"address\",\r",
+              "    \"id\",\r",
+              "    \"email\",\r",
+              "    \"username\",\r",
+              "    \"password\",\r",
+              "    \"name\",\r",
+              "    \"phone\",\r",
+              "    \"__v\"\r",
+              "  ]\r",
+              "}\r",
+              "\r",
+              "var expectedResponseKeys = ['id','username','password'];\r",
+              "var expectedUserId = pm.collectionVariables.get(\"userId\");\r",
+              "var expectedUsername = pm.iterationData.get(\"username\");\r",
+              "var expectedEmail = pm.iterationData.get(\"email\");\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single User Details' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single User Details' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single User Details' API request has response with valid JSON Schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single User Details' API request response should not have 'password' field present\",function(){\r",
+              "    pm.expect(responseBody).to.not.have.property(\"password\");\r",
+              "});\r",
+              "\r",
+              "expectedResponseKeys.forEach(function(expectedResponseKey){\r",
+              "    pm.test(\"Verify that valid 'Get Single User Details' API request response have key: '\"+expectedResponseKey+\"' present\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(expectedResponseKey);\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single User Details' API request returns correct user details data for user-id: '\"+expectedUserId,function(){\r",
+              "    pm.expect(responseBody.username).to.be.equal(expectedUsername);\r",
+              "    pm.expect(responseBody.email).to.be.equal(expectedEmail);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleUserDetailsAPIRequest-NEGATIVE TESTING-Invalid User ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single User Details' API request with invalid 'userid' as parameter returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that 'Get Single User Details' API request with invalid 'userid' as parameter returns correct error message\",function(){\r",
+              "    pm.expect(pm.response.json().message).to.be.equal(\"user id should be provided\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{$randomAlphaNumeric}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{$randomAlphaNumeric}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleUserDetailsAPIRequest-NEGATIVE TESTING-Non-Existent User Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single User Details' API request with non existent 'userid' as parameter returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that 'Get Single User Details' API request with non existent 'userid' as parameter returns response data as 'null'\",function(){\r",
+              "    pm.expect(pm.response.json()).to.be.null;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/3129",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "3129"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllUsersDetailsAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"array\",\r",
+              "  \"items\": {\r",
+              "    \"type\": \"object\",\r",
+              "    \"properties\": {\r",
+              "      \"address\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"geolocation\": {\r",
+              "            \"type\": \"object\",\r",
+              "            \"properties\": {\r",
+              "              \"lat\": {\r",
+              "                \"type\": \"string\"\r",
+              "              },\r",
+              "              \"long\": {\r",
+              "                \"type\": \"string\"\r",
+              "              }\r",
+              "            },\r",
+              "            \"required\": [\r",
+              "              \"lat\",\r",
+              "              \"long\"\r",
+              "            ]\r",
+              "          },\r",
+              "          \"city\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"street\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"number\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"zipcode\": {\r",
+              "            \"type\": \"string\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"geolocation\",\r",
+              "          \"city\",\r",
+              "          \"street\",\r",
+              "          \"number\",\r",
+              "          \"zipcode\"\r",
+              "        ]\r",
+              "      },\r",
+              "      \"id\": {\r",
+              "        \"type\": \"number\"\r",
+              "      },\r",
+              "      \"email\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"username\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"password\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"name\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"firstname\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"lastname\": {\r",
+              "            \"type\": \"string\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"firstname\",\r",
+              "          \"lastname\"\r",
+              "        ]\r",
+              "      },\r",
+              "      \"phone\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"__v\": {\r",
+              "        \"type\": \"number\"\r",
+              "      }\r",
+              "    },\r",
+              "    \"required\": [\r",
+              "      \"address\",\r",
+              "      \"id\",\r",
+              "      \"email\",\r",
+              "      \"username\",\r",
+              "      \"password\",\r",
+              "      \"name\",\r",
+              "      \"phone\",\r",
+              "      \"__v\"\r",
+              "    ]\r",
+              "  }\r",
+              "};\r",
+              "\r",
+              "var expectedResponseKeys = {\r",
+              "    id:\"number\",\r",
+              "    username:\"string\",\r",
+              "    email:\"string\"\r",
+              "}; \r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Users' details API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Users' details API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Users' details API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "responseBody.forEach(function(user){\r",
+              "for(var expectedResponseKey in expectedResponseKeys){\r",
+              "    var expectedResponseKeyType = expectedResponseKeys[expectedResponseKey];\r",
+              "    pm.test(\"Verify that valid 'Get All Users' details API request response has expected key: '\"+expectedResponseKey+\"' with type: '\"+expectedResponseKeyType+\"'\")\r",
+              "    pm.expect(user).to.have.property(expectedResponseKey);\r",
+              "    pm.expect(typeof user[expectedResponseKey]).to.be.equal(expectedResponseKeyType);\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Users' details API request response do not have key:'password' present\",function(){\r",
+              "    pm.expect(user).to.not.have.property(\"password\");\r",
+              "});\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllUsersDetailsAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get All Users' details API request with invalid HTTP Method returns status code as 405(Method Not Allowed)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllUsersDetailsAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get All Users' details API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/usersans",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "usersans"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUserAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"username\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"email\": {\r",
+              "      \"type\": \"string\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"username\",\r",
+              "    \"email\"\r",
+              "  ]\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update User' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update User' API request response time is less than 1s\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update User' API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"john_doe_updated\", \"email\": \"john.updated@example.com\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUserAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update User' API request with invalid HTTP method returns status code as 405(Method Not Allowed)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"john_doe_updated\", \"email\": \"john.updated@example.com\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUserAPIRequest-NEGATIVE TESTING-Non-Existent User Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update User' API request with non-existent user id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"john_doe_updated\", \"email\": \"john.updated@example.com\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users/90911121",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "90911121"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUserAPIRequest-NEGATIVE TESTING-Empty Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update User' API request with invalid HTTP method returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUserAPIRequest-NEGATIVE TESTING-Invalid Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update User' API request with invalid payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"id\":\"abc123\",\"username\": 12131,\"invalid_key\":\"asabb113\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteUserAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"address\": {\r",
+              "      \"type\": \"object\",\r",
+              "      \"properties\": {\r",
+              "        \"geolocation\": {\r",
+              "          \"type\": \"object\",\r",
+              "          \"properties\": {\r",
+              "            \"lat\": {\r",
+              "              \"type\": \"string\"\r",
+              "            },\r",
+              "            \"long\": {\r",
+              "              \"type\": \"string\"\r",
+              "            }\r",
+              "          },\r",
+              "          \"required\": [\r",
+              "            \"lat\",\r",
+              "            \"long\"\r",
+              "          ]\r",
+              "        },\r",
+              "        \"city\": {\r",
+              "          \"type\": \"string\"\r",
+              "        },\r",
+              "        \"street\": {\r",
+              "          \"type\": \"string\"\r",
+              "        },\r",
+              "        \"number\": {\r",
+              "          \"type\": \"number\"\r",
+              "        },\r",
+              "        \"zipcode\": {\r",
+              "          \"type\": \"string\"\r",
+              "        }\r",
+              "      },\r",
+              "      \"required\": [\r",
+              "        \"geolocation\",\r",
+              "        \"city\",\r",
+              "        \"street\",\r",
+              "        \"number\",\r",
+              "        \"zipcode\"\r",
+              "      ]\r",
+              "    },\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"email\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"username\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"password\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"name\": {\r",
+              "      \"type\": \"object\",\r",
+              "      \"properties\": {\r",
+              "        \"firstname\": {\r",
+              "          \"type\": \"string\"\r",
+              "        },\r",
+              "        \"lastname\": {\r",
+              "          \"type\": \"string\"\r",
+              "        }\r",
+              "      },\r",
+              "      \"required\": [\r",
+              "        \"firstname\",\r",
+              "        \"lastname\"\r",
+              "      ]\r",
+              "    },\r",
+              "    \"phone\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"__v\": {\r",
+              "      \"type\": \"number\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"address\",\r",
+              "    \"id\",\r",
+              "    \"email\",\r",
+              "    \"username\",\r",
+              "    \"password\",\r",
+              "    \"name\",\r",
+              "    \"phone\",\r",
+              "    \"__v\"\r",
+              "  ]\r",
+              "};\r",
+              "var userId = pm.collectionVariables.get(\"userId\");\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete User' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete User' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete User' API request response has 'id' key present with value: '\"+userId+\"'\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"id\");\r",
+              "    pm.expect(responseBody.id).to.be.equal(userId)\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteUserAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete User' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/{{userId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteUserAPIRequest-INVAILD TESTING-Non-Existent User Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete User' API request with non-existent user id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/12138",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "12138"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteUserAPIRequest-INVAILD TESTING-Invalid User Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Verify that 'Delete User' API request with invalid user id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that 'Delete User' API request with invalid user id returns response with correct status and error message\",function(){\r",
+              "    pm.expect(responseBody.status).to.be.equal(\"error\");\r",
+              "    pm.expect(responseBody.message).to.be.equal(\"user id should be provided\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/users/asba1313",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "users",
+            "asba1313"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedJSONResponseSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"token\": {\r",
+              "      \"type\": \"string\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"token\"\r",
+              "  ]\r",
+              "};\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Login User' API request return status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Login User' API request response time is less than 1 sec\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Login User' API request response has expected JSON Schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedJSONResponseSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Login User' API request returns response with valid JWT token\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"token\");\r",
+              "    pm.expect(responseBody.token.split(\".\")).to.have.length(3);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"johnd\", \"password\": \"m38rmF$\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Invalid Username but Valid Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with 'invalid username' and 'valid password' return status code 401(Unauthorized)\",function(){\r",
+              "    pm.response.to.have.status(401);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"rico\", \"password\": \"m38rmF$\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Valid Username but Invalid Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with 'valid username' and 'invalid password' return status code 401(Unauthorized)\",function(){\r",
+              "    pm.response.to.have.status(401);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"johnd\", \"password\": \"absa\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Valid Username but Blank Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with 'valid username' and 'blank password' return status code 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"johnd\", \"password\": \"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Blank Username but Valid Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with 'blank username' and 'valid password' return status code 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"\", \"password\": \"m38rmF$\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Blank Username but Blank Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with 'blank username' and 'blank password' return status code 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"\", \"password\": \"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with invalid HTTP method return status code 405(Method Not Allowed)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"johnd\", \"password\": \"m38rmF\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/login",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUserAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Login User' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"johnd\", \"password\": \"m38rmF\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/auth/logins",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "auth",
+            "logins"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllProductsAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"array\",\r",
+              "  \"items\": {\r",
+              "    \"type\": \"object\",\r",
+              "    \"properties\": {\r",
+              "      \"id\": {\r",
+              "        \"type\": \"number\"\r",
+              "      },\r",
+              "      \"title\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"price\": {\r",
+              "        \"type\": \"number\"\r",
+              "      },\r",
+              "      \"description\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"category\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"image\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"rating\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"rate\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"count\": {\r",
+              "            \"type\": \"number\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"rate\",\r",
+              "          \"count\"\r",
+              "        ]\r",
+              "      }\r",
+              "    },\r",
+              "    \"required\": [\r",
+              "      \"id\",\r",
+              "      \"title\",\r",
+              "      \"price\",\r",
+              "      \"description\",\r",
+              "      \"category\",\r",
+              "      \"image\",\r",
+              "      \"rating\"\r",
+              "    ]\r",
+              "  }\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Products' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Products' API request response time is below 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Products' API request returns response with expected JSON Schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Products' API request returns response with non-empty array\",function(){\r",
+              "    pm.expect(Array.isArray(responseBody)).to.be.true;\r",
+              "    pm.expect(responseBody.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllProductsAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get All Products' API request with invalid HTTP method returns status code as 405(Method Not Allowed)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllProductsAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that valid 'Get All Products' API request returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/productss",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "productss"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddProductAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"title\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"price\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"description\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"image\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"category\": {\r",
+              "      \"type\": \"string\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"title\",\r",
+              "    \"price\",\r",
+              "    \"description\",\r",
+              "    \"image\",\r",
+              "    \"category\"\r",
+              "  ]\r",
+              "};\r",
+              "\r",
+              "var expectedResponseData = {\r",
+              "    id:21,\r",
+              "    title: pm.collectionVariables.get(\"productTitle\"),\r",
+              "    price: Number(pm.collectionVariables.get(\"productPrice\")),\r",
+              "    description: pm.collectionVariables.get(\"productDescription\"),\r",
+              "    image: pm.collectionVariables.get(\"productImage\"),\r",
+              "    category: pm.collectionVariables.get(\"productCategory\")\r",
+              "}\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add Product' API Request returns status code as 201\",function(){\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add Product' API Request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add Product' API Request response schema is a valid JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "for(var key in expectedResponseData){\r",
+              " pm.test(\"Verify that valid 'Add Product' API Request response has expected key: '\"+key+\"' with expected value: '\"+expectedResponseData[key]+\"' present\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(key);\r",
+              "    pm.expect(responseBody[key]).to.be.equal(expectedResponseData[key]);\r",
+              " });\r",
+              "}\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddProductAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add Product' API Request with invalid HTTP Method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddProductAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add Product' API Request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/prod",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "prod"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddProductAPIRequest-NEGATIVE TESTING-Empty Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add Product' API Request with empty payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddProductAPIRequest-NEGATIVE TESTING-Incomplete Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add Product' API Request with incomplete payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddProductAPIRequest-NEGATIVE TESTING-Invalid Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add Product' API Request with invalid payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": 1213, \"price\": \"121sa\" ,\"description\": true,\"category\":\"CA\",\"image\":121313}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleProductAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"title\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"price\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"description\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"category\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"image\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"rating\": {\r",
+              "      \"type\": \"object\",\r",
+              "      \"properties\": {\r",
+              "        \"rate\": {\r",
+              "          \"type\": \"number\"\r",
+              "        },\r",
+              "        \"count\": {\r",
+              "          \"type\": \"number\"\r",
+              "        }\r",
+              "      },\r",
+              "      \"required\": [\r",
+              "        \"rate\",\r",
+              "        \"count\"\r",
+              "      ]\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"title\",\r",
+              "    \"price\",\r",
+              "    \"description\",\r",
+              "    \"category\",\r",
+              "    \"image\",\r",
+              "    \"rating\"\r",
+              "  ]\r",
+              "};\r",
+              "\r",
+              "var expectedProductData = {\r",
+              "    id: Number(pm.collectionVariables.get(\"productId\")),\r",
+              "    title: \"Mens Casual Premium Slim Fit T-Shirts \",\r",
+              "    price: 22.3,\r",
+              "    category: \"men's clothing\",\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Product' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Product' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Product' API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "for(var key in expectedProductData){\r",
+              "    pm.test(\"Verify that valid 'Get Single Product' API request returns product data with key: \"+key+\" and value: \"+expectedProductData[key],function(){\r",
+              "    pm.expect(responseBody).to.have.property(key);\r",
+              "    pm.expect(responseBody[key]).to.be.equal(expectedProductData[key]);\r",
+              "   });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleProductAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Product' API request with invalid HTTP Method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleProductAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Product' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/myproducts/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "myproducts",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleProductAPIRequest-NEGATIVE TESTING-Non-Existent Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Product' API request with non-existent product id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/312",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "312"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleProductAPIRequest-NEGATIVE TESTING-Invalid Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Product' API request with invalid product id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/abc12a3",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "abc12a3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"title\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"price\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"description\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"image\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"category\": {\r",
+              "      \"type\": \"string\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"title\",\r",
+              "    \"price\",\r",
+              "    \"description\",\r",
+              "    \"image\",\r",
+              "    \"category\"\r",
+              "  ]\r",
+              "};\r",
+              "\r",
+              "var expectedResponseData = {\r",
+              "    title: pm.collectionVariables.get(\"productTitle\"),\r",
+              "    price: Number(pm.collectionVariables.get(\"productPrice\")),\r",
+              "    description: pm.collectionVariables.get(\"productDescription\"),\r",
+              "    category: pm.collectionVariables.get(\"productCategory\"),\r",
+              "    image: pm.collectionVariables.get(\"productImage\")\r",
+              "};\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Product' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Product' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Product' API request response has expected JSON schema\",function(){\r",
+              "   pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Product' API request response has expected JSON schema\",function(){\r",
+              "   pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "for(var key in expectedResponseData){\r",
+              "    pm.test(\"Verify that valid 'Update Product' API request response has expected key: \"+key+\" with value: \"+expectedResponseData[key],function(){\r",
+              "        pm.expect(responseBody).to.have.property(key);\r",
+              "        pm.expect(responseBody[key]).to.be.equal(expectedResponseData[key]);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}},\"description\": \"{{productDescription}}\",\"category\": \"{{productCategory}}\",\"image\": \"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}},\"description\": \"{{productDescription}}\",\"category\": \"{{productCategory}}\",\"image\": \"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}},\"description\": \"{{productDescription}}\",\"category\": \"{{productCategory}}\",\"image\": \"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/myproducts/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "myproducts",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-Non-Existent Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with non-existent product id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}},\"description\": \"{{productDescription}}\",\"category\": \"{{productCategory}}\",\"image\": \"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/0129012",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "0129012"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-Invalid Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with invalid product id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}},\"description\": \"{{productDescription}}\",\"category\": \"{{productCategory}}\",\"image\": \"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/abs12131",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "abs12131"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-No Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with no product id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"{{productTitle}}\", \"price\": {{productPrice}},\"description\": \"{{productDescription}}\",\"category\": \"{{productCategory}}\",\"image\": \"{{productImage}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-Invalid Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with invalid payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": 1213, \"price\": \"ABCPrice\",\"description\": \"{{productDescription}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateProductAPIRequest-NEGATIVE TESTING-Empty Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Product' API request with empty payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteProductAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"title\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"price\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"description\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"category\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"image\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"rating\": {\r",
+              "      \"type\": \"object\",\r",
+              "      \"properties\": {\r",
+              "        \"rate\": {\r",
+              "          \"type\": \"number\"\r",
+              "        },\r",
+              "        \"count\": {\r",
+              "          \"type\": \"number\"\r",
+              "        }\r",
+              "      },\r",
+              "      \"required\": [\r",
+              "        \"rate\",\r",
+              "        \"count\"\r",
+              "      ]\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"title\",\r",
+              "    \"price\",\r",
+              "    \"description\",\r",
+              "    \"category\",\r",
+              "    \"image\",\r",
+              "    \"rating\"\r",
+              "  ]\r",
+              "};\r",
+              "var expectedProductId = Number(pm.collectionVariables.get(\"productId\"));\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Product' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Product' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Product' API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Product' API request response has expected product id: \"+expectedProductId,function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"id\");\r",
+              "    pm.expect(responseBody.id).to.be.equal(expectedProductId);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteProductAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Product' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteProductAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Product' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/myproducts/{{productId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "myproducts",
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteProductAPIRequest-NEGATIVE TESTING-Non-Existent Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Product' API request with non-existent product id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/3124",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "3124"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteProductAPIRequest-NEGATIVE TESTING-Invalid Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Product' API request with invalid product id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/3a124",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            "3a124"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteProductAPIRequest-NEGATIVE TESTING-No Product Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Product' API request with no product id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/products/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "products",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllCartsAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"array\",\r",
+              "  \"items\": {\r",
+              "    \"type\": \"object\",\r",
+              "    \"properties\": {\r",
+              "      \"id\": {\r",
+              "        \"type\": \"number\"\r",
+              "      },\r",
+              "      \"userId\": {\r",
+              "        \"type\": \"number\"\r",
+              "      },\r",
+              "      \"date\": {\r",
+              "        \"type\": \"string\"\r",
+              "      },\r",
+              "      \"products\": {\r",
+              "        \"type\": \"array\",\r",
+              "        \"items\": {\r",
+              "          \"type\": \"object\",\r",
+              "          \"properties\": {\r",
+              "            \"productId\": {\r",
+              "              \"type\": \"number\"\r",
+              "            },\r",
+              "            \"quantity\": {\r",
+              "              \"type\": \"number\"\r",
+              "            }\r",
+              "          },\r",
+              "          \"required\": [\r",
+              "            \"productId\",\r",
+              "            \"quantity\"\r",
+              "          ]\r",
+              "        }\r",
+              "      },\r",
+              "      \"__v\": {\r",
+              "        \"type\": \"number\"\r",
+              "      }\r",
+              "    },\r",
+              "    \"required\": [\r",
+              "      \"id\",\r",
+              "      \"userId\",\r",
+              "      \"date\",\r",
+              "      \"products\",\r",
+              "      \"__v\"\r",
+              "    ]\r",
+              "  }\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Carts' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Carts' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Carts' API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get All Carts' API request returns response as non-empty array\",function(){\r",
+              "    pm.expect(Array.isArray(responseBody)).to.be.true;\r",
+              "    pm.expect(responseBody.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "responseBody.forEach(function(cart){\r",
+              "    pm.test(\"Verify that valid 'Get All Carts' API request response cart object with id:\"+cart.id+\" has key: 'products' which is non-empty array\",function(){\r",
+              "        pm.expect(cart).to.have.property(\"products\");\r",
+              "        pm.expect(Array.isArray(cart.products)).to.be.true;\r",
+              "        pm.expect(cart.products.length).to.be.greaterThan(0);\r",
+              "    });\r",
+              "})\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllCartsAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get All Carts' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllCartsAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get All Carts' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/mycarts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "mycarts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddNewCartAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"userId\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"products\": {\r",
+              "      \"type\": \"array\",\r",
+              "      \"items\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"id\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"title\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"price\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"description\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"category\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"image\": {\r",
+              "            \"type\": \"string\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"id\",\r",
+              "          \"title\",\r",
+              "          \"price\",\r",
+              "          \"description\",\r",
+              "          \"category\",\r",
+              "          \"image\"\r",
+              "        ]\r",
+              "      }\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"userId\",\r",
+              "    \"products\"\r",
+              "  ]\r",
+              "};\r",
+              "\r",
+              "var expectedProductData =  {\r",
+              "     id: Number(pm.collectionVariables.get(\"productId\")),\r",
+              "     title:pm.collectionVariables.get(\"productTitle\"),\r",
+              "     price: Number(pm.collectionVariables.get(\"productPrice\")),\r",
+              "     description:pm.collectionVariables.get(\"productDescription\"),\r",
+              "     category:pm.collectionVariables.get(\"productCategory\"),\r",
+              "     image:pm.collectionVariables.get(\"productImage\")\r",
+              "};\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add New Cart' API request returns status code as 201\",function(){\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add New Cart' API request respone time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add New Cart' API request respone has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Add New Cart' API request respone has key: products as non-empty array\",function(){\r",
+              "    pm.expect(Array.isArray(responseBody.products)).to.be.true;\r",
+              "    pm.expect(responseBody.products.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "for(var key in expectedProductData){\r",
+              "    pm.test(\"Verify that valid 'Add New Cart' API request respone has expected key: \"+key+\" with value: \"+expectedProductData[key],function(){\r",
+              "        pm.expect(responseBody.products[responseBody.products.length-1]).to.have.property(key);\r",
+              "        pm.expect(responseBody.products[responseBody.products.length-1][key]).to.be.equal(expectedProductData[key]);\r",
+              "    });\r",
+              "}\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userId\": 1, \r\n  \"products\": [\r\n    {\"id\": 1,\r\n     \"title\":\"Product A\",\r\n     \"price\":212.12,\r\n     \"description\":\"My Product A\",\r\n     \"category\":\"Category A\",\r\n     \"image\":\"https://www.MyProductA.cart\"\r\n     },\r\n     {\"id\": {{productId}},\r\n     \"title\":\"{{productTitle}}\",\r\n     \"price\": {{productPrice}},\r\n     \"description\":\"{{productDescription}}\",\r\n     \"category\":\"{{productCategory}}\",\r\n     \"image\":\"{{productImage}}\"\r\n     }\r\n     ]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddNewCartAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add New Cart' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userId\": 1, \r\n  \"products\": [\r\n    {\"id\": 1,\r\n     \"title\":\"Product A\",\r\n     \"price\":212.12,\r\n     \"description\":\"My Product A\",\r\n     \"category\":\"Category A\",\r\n     \"image\":\"https://www.MyProductA.cart\"\r\n     },\r\n     {\"id\": {{productId}},\r\n     \"title\":\"{{productTitle}}\",\r\n     \"price\": {{productPrice}},\r\n     \"description\":\"{{productDescription}}\",\r\n     \"category\":\"{{productCategory}}\",\r\n     \"image\":\"{{productImage}}\"\r\n     }\r\n     ]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddNewCartAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add New Cart' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userId\": 1, \r\n  \"products\": [\r\n    {\"id\": 1,\r\n     \"title\":\"Product A\",\r\n     \"price\":212.12,\r\n     \"description\":\"My Product A\",\r\n     \"category\":\"Category A\",\r\n     \"image\":\"https://www.MyProductA.cart\"\r\n     },\r\n     {\"id\": {{productId}},\r\n     \"title\":\"{{productTitle}}\",\r\n     \"price\": {{productPrice}},\r\n     \"description\":\"{{productDescription}}\",\r\n     \"category\":\"{{productCategory}}\",\r\n     \"image\":\"{{productImage}}\"\r\n     }\r\n     ]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/mycarts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "mycarts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddNewCartAPIRequest-NEGATIVE TESTING-Invalid Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add New Cart' API request with invalid payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userId\": 1,\"products\": \"PRODUCT A\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddNewCartAPIRequest-NEGATIVE TESTING-Empty Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Add New Cart' API request with empty payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleCartAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+              "  \"title\": \"Generated schema for Root\",\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"userId\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"date\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"products\": {\r",
+              "      \"type\": \"array\",\r",
+              "      \"items\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"productId\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"quantity\": {\r",
+              "            \"type\": \"number\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"productId\",\r",
+              "          \"quantity\"\r",
+              "        ]\r",
+              "      }\r",
+              "    },\r",
+              "    \"__v\": {\r",
+              "      \"type\": \"number\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"userId\",\r",
+              "    \"date\",\r",
+              "    \"products\",\r",
+              "    \"__v\"\r",
+              "  ]\r",
+              "};\r",
+              "var expectedCartId = Number(pm.collectionVariables.get(\"cartId\"));\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Cart' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Cart' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Cart' API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Cart' API request response data has expected cart id: \"+expectedCartId,function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"id\");\r",
+              "    pm.expect(responseBody.id).to.be.equal(expectedCartId);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Get Single Cart' API request response data has non-empty array:products\"+expectedCartId,function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"products\");\r",
+              "    pm.expect(Array.isArray(responseBody.products)).to.be.true;\r",
+              "    pm.expect(responseBody.products.length).to.be.greaterThan(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleCartAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Cart' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleCartAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Cart' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/mycarts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "mycarts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleCartAPIRequest-NEGATIVE TESTING-Non-Existent Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Get Single Cart' API request with non-existent cart id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/123",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "123"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetSingleCartAPIRequest-NEGATIVE TESTING-Invalid Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedErrorResponse = {\r",
+              "    \"status\": \"error\",\r",
+              "    \"message\": \"cart id should be provided\"\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Verify that 'Get Single Cart' API request with invalid cart id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that 'Get Single Cart' API request with invalid cart id returns expected response\",function(){\r",
+              "    for(var key in expectedErrorResponse){\r",
+              "        pm.expect(responseBody).to.have.property(key);\r",
+              "        pm.expect(responseBody[key]).to.be.equal(expectedErrorResponse[key]);\r",
+              "    }\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/abc1123",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "abc1123"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+              "  \"title\": \"Generated schema for Root\",\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"userId\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"products\": {\r",
+              "      \"type\": \"array\",\r",
+              "      \"items\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"id\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"title\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"price\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"description\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"category\": {\r",
+              "            \"type\": \"string\"\r",
+              "          },\r",
+              "          \"image\": {\r",
+              "            \"type\": \"string\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"id\",\r",
+              "          \"title\",\r",
+              "          \"price\",\r",
+              "          \"description\",\r",
+              "          \"category\",\r",
+              "          \"image\"\r",
+              "        ]\r",
+              "      }\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"userId\",\r",
+              "    \"products\"\r",
+              "  ]\r",
+              "};\r",
+              "var expectedCartId = Number(pm.collectionVariables.get(\"cartId\"));\r",
+              "var expectedProductData =  {\r",
+              "     id: Number(pm.collectionVariables.get(\"productId\")),\r",
+              "     title:pm.collectionVariables.get(\"productTitle\"),\r",
+              "     price: Number(pm.collectionVariables.get(\"productPrice\")),\r",
+              "     description:pm.collectionVariables.get(\"productDescription\"),\r",
+              "     category:pm.collectionVariables.get(\"productCategory\"),\r",
+              "     image:pm.collectionVariables.get(\"productImage\")\r",
+              "};\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Cart' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Cart' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.have.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Cart' API request response has expected JSON Schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Cart' API request response has expected cart id: \"+expectedCartId,function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"id\");\r",
+              "    pm.expect(responseBody.id).to.be.equal(expectedCartId);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Update Cart' API request response has key: products as non-empty array\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"products\");\r",
+              "    pm.expect(Array.isArray(responseBody.products)).to.be.true;\r",
+              "    pm.expect(responseBody.products.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "for(var expectedProductKey in expectedProductData){\r",
+              "    var expectedProductKeyValue = expectedProductData[expectedProductKey];\r",
+              "    pm.test(\"Verify that valid 'Update Cart' API request response has products data with expected key: \"+expectedProductKey+\" and value: \"+expectedProductKeyValue,function(){\r",
+              "    pm.expect(responseBody.products[0]).to.have.property(expectedProductKey);\r",
+              "    pm.expect(responseBody.products[0][expectedProductKey]).to.be.equal(expectedProductKeyValue);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": 1, \r\n\"products\": [\r\n    {\"id\": 2,\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Cart' API request with invalid HTTP method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": 1, \r\n\"products\": [\r\n    {\"id\": 2,\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Cart' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": 1, \r\n\"products\": [\r\n    {\"id\": 2,\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/mycarts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "mycarts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-Non-Existent Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Cart' API request with non-existent cart id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": 1, \r\n\"products\": [\r\n    {\"id\": 2,\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts/1231211212",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "1231211212"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-Invalid Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Verify that 'Update Cart' API request with invalid cart id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that 'Update Cart' API request with invalid cart id returns response with correct error message\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"message\");\r",
+              "    pm.expect(responseBody.message).to.be.equal(\"something went wrong! check your sent data\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": 1, \r\n\"products\": [\r\n    {\"id\": 2,\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts/abc133",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "abc133"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-No Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Cart' API request with empty cart id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": 1, \r\n\"products\": [\r\n    {\"id\": 2,\"title\": \"{{productTitle}}\", \"price\": {{productPrice}} ,\"description\":\"{{productDescription}}\",\"category\":\"{{productCategory}}\",\"image\":\"{{productImage}}\"}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-Invalid Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Cart' API request with invalid payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"userId\": \"ABCQ!#11\", \r\n\"products\": [\r\n    {\"id\": \"2\",\"title\": 121312, \"price\": \"ASAS\" ,\"description\":121312,\"category\":\"ASAS\",\"image\":31212}\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateCartAPIRequest-NEGATIVE TESTING-Empty Payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Update Cart' API request with empty payload returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCartAPIRequest-POSITIVE TESTING",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var responseBody = pm.response.json();\r",
+              "var expectedResponseJSONSchema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"properties\": {\r",
+              "    \"id\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"userId\": {\r",
+              "      \"type\": \"number\"\r",
+              "    },\r",
+              "    \"date\": {\r",
+              "      \"type\": \"string\"\r",
+              "    },\r",
+              "    \"products\": {\r",
+              "      \"type\": \"array\",\r",
+              "      \"items\": {\r",
+              "        \"type\": \"object\",\r",
+              "        \"properties\": {\r",
+              "          \"productId\": {\r",
+              "            \"type\": \"number\"\r",
+              "          },\r",
+              "          \"quantity\": {\r",
+              "            \"type\": \"number\"\r",
+              "          }\r",
+              "        },\r",
+              "        \"required\": [\r",
+              "          \"productId\",\r",
+              "          \"quantity\"\r",
+              "        ]\r",
+              "      }\r",
+              "    },\r",
+              "    \"__v\": {\r",
+              "      \"type\": \"number\"\r",
+              "    }\r",
+              "  },\r",
+              "  \"required\": [\r",
+              "    \"id\",\r",
+              "    \"userId\",\r",
+              "    \"date\",\r",
+              "    \"products\",\r",
+              "    \"__v\"\r",
+              "  ]\r",
+              "};\r",
+              "var expectedCartId = Number(pm.collectionVariables.get(\"cartId\"));\r",
+              "\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Cart' API request returns status code as 200\",function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Cart' API request response time is less than 1 second\",function(){\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Cart' API request response has expected JSON schema\",function(){\r",
+              "    pm.response.to.have.jsonSchema(expectedResponseJSONSchema);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Cart' API request response has correct cart id: \"+expectedCartId+\" present\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"id\");\r",
+              "    pm.expect(responseBody.id).to.be.equal(expectedCartId);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Cart' API request response has valid date field present\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"date\");\r",
+              "    pm.expect(new Date(responseBody.date).toString()).to.be.not.equal(\"Invalid Date\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Verify that valid 'Delete Cart' API request response has non-empty products array present\",function(){\r",
+              "    pm.expect(responseBody).to.have.property(\"products\");\r",
+              "    pm.expect(Array.isArray(responseBody.products)).to.be.true;\r",
+              "    pm.expect(responseBody.products.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCartAPIRequest-NEGATIVE TESTING-Invalid HTTP Method",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Cart' API request with invalid HTTP Method returns status code as 405(Method Not Found)\",function(){\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCartAPIRequest-NEGATIVE TESTING-Invalid Endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Cart' API request with invalid endpoint returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/mycarts/{{cartId}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "mycarts",
+            "{{cartId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCartAPIRequest-NEGATIVE TESTING-Non-Existent Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Cart' API request with non-existent cart id returns status code as 404(Not Found)\",function(){\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/90981287",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "90981287"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCartAPIRequest-NEGATIVE TESTING-Invalid Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Cart' API request with invalid cart id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/abcd3121",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            "abcd3121"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCartAPIRequest-NEGATIVE TESTING-No Cart Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify that 'Delete Cart' API request with no cart id returns status code as 400(Bad Request)\",function(){\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/carts/",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "carts",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "username",
+      "value": "{{username}}",
+      "disabled": true
+    },
+    {
+      "key": "password",
+      "value": "{{password}}",
+      "disabled": true
+    },
+    {
+      "key": "email",
+      "value": "{{email}}",
+      "disabled": true
+    },
+    {
+      "key": "userId",
+      "value": 1
+    },
+    {
+      "key": "productId",
+      "value": "2"
+    },
+    {
+      "key": "productTitle",
+      "value": "New Product"
+    },
+    {
+      "key": "productPrice",
+      "value": "29.99"
+    },
+    {
+      "key": "productDescription",
+      "value": "This a new product"
+    },
+    {
+      "key": "productCategory",
+      "value": "Category A"
+    },
+    {
+      "key": "productImage",
+      "value": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+    },
+    {
+      "key": "cartId",
+      "value": "1"
+    }
+  ]
+}
