@@ -25,7 +25,7 @@ jobs:
       - name: Run E-Commerce APIs Project Postman Collection
         run: |
           newman run "E-Commerce APIs Project.postman_collection.json" \
-          -e "QA-Environment (E-Commerce APIs Project).postman_environment" \
+          -e "QA-Environment (E-Commerce APIs Project).postman_environment.json" \
           -d "ecommerce_testdata.csv" \
           -r cli,htmlextra
 
