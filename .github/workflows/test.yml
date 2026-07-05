@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: '15 17 * * *'
+    - cron: '30 2 * * *'
 
 jobs:
   run-api-tests:
