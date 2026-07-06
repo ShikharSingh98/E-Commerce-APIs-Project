@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  schedule:
-    - cron: '30 2 * * *'
+  # schedule:
+    # - cron: '30 2 * * *'
 
 jobs:
   run-api-tests:
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v7.0.0
 
       - name: Setup Node.js Enviornment
-        uses: actions/setup-node@v6.4.0
+        uses: actions/setup-node@v6.4.
         with:
           node-version: '22'
 
